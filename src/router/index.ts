@@ -96,6 +96,13 @@ const router = createRouter({
       component: StudentsView,
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  },
 })
 router.beforeEach(() => {
   nProgress.start()
