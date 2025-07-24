@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { provide, ref } from 'vue'
 
-//import HelloWorld from './components/EventCard.vue'
+const defaultPageSize = ref(2)
+
+provide('pageSize', defaultPageSize.value)
 </script>
 
 <template>
