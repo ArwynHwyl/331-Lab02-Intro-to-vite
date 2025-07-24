@@ -1,19 +1,34 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
 import NewCard from '@/components/NewCard.vue'
+import StudentCard from '@/components/StudentCard.vue'
+import type { Student } from '@types'
 import type { Event } from '@/types'
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import EventService from '@/services/EventService'
+import StudentService from '@/services/StudentService'
 const events = ref<Event[]>(null)
+const students = ref<Student[]>(null)
 
 onMounted(() => {
-  axios
-    .get('https://my-json-server.typicode.com/ArwynHwyl/331-Lab02-Intro-to-vite/db')
+  EventService.getEvents()
     .then((response) => {
       console.log(response.data)
+      events.value = response.data
     })
     .catch((error) => {
       console.error('Error!', error)
+    })
+})
+
+onMounted(() => {
+  StudentService.getStudent()
+    .then((response) => {
+      console.log(response.data)
+      students.value = response.data
+    })
+    .catch((error) => {
+      console.error('Error', error)
     })
 })
 </script>
@@ -21,10 +36,11 @@ onMounted(() => {
 <template>
   <h1>Events For Good</h1>
   <!-- new element-->
-  <dive class="events">
+  <div class="events">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
     <NewCard v-for="event in events" :key="event.id" :event="event" />
-  </dive>
+    <StudentCard v-for="student in students" :key="student.id" :student="student" />
+  </div>
 </template>
 
 <style scoped>
