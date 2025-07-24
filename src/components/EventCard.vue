@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Event } from '@/types'
+import NewCard from './NewCard.vue'
 import { RouterLink } from 'vue-router'
 defineProps<{
   event: Event
@@ -22,6 +23,8 @@ defineProps<{
     <div class="event-card">
       <h2>{{ event.title }}</h2>
       <span>@{{ event.time }} on {{ event.date }}</span>
+      <NewCard :event="event" />
+      <p>{{ event.description }}</p>
     </div>
   </RouterLink>
 </template>
