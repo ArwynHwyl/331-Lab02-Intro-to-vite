@@ -65,6 +65,17 @@
       "time": "11:00",
       "petsAllowed": false,
       "organizer": "Brody Kill"
+    },
+    {
+      "id": 1004,
+      "category": "community",
+      "title": "Neighborhood Tree Planting",
+      "description": "Join us to plant trees in the community park.",
+      "location": "Maple Grove Park",
+      "date": "August 5, 2022",
+      "time": "09:30",
+      "petsAllowed": true,
+      "organizer": "Samantha Lee"
     }
   ]
 }
