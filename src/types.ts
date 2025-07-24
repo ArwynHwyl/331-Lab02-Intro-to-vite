@@ -9,7 +9,8 @@ export interface Event {
   petsAllowed: boolean
   organizer: string
 }
-export interface Student {
+
+export interface StudentInfo {
   id: number
   studentId: string
   name: string
@@ -18,4 +19,8 @@ export interface Student {
   image: string
   penAmount: number
   description: string
+}
+
+export interface MessageState {
+  messages: string
 }
