@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { provide, ref } from 'vue'
-
-const defaultPageSize = ref(2)
-
-provide('pageSize', defaultPageSize.value)
 </script>
 
 <template>
@@ -14,7 +9,7 @@ provide('pageSize', defaultPageSize.value)
         <nav>
           <RouterLink :to="{ name: 'event-list-view' }">Event</RouterLink>
           <RouterLink :to="{ name: 'about' }">About</RouterLink>
-          <RouterLink :to="{ name: 'student' }">Student</RouterLink>
+          <RouterLink :to="{ name: 'students' }">Students</RouterLink>
         </nav>
       </div>
     </header>
