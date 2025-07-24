@@ -24,3 +24,6 @@ export interface StudentInfo {
 export interface MessageState {
   messages: string
 }
+export interface EventState {
+  event: Event | null
+}
