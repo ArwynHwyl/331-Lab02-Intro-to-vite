@@ -2,7 +2,7 @@
   <div class="max-w-3xl mx-auto p-6">
     <h1 class="eyebrow -text-primary mb-4">Create Event</h1>
 
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="saveEvent">
       <div class="field">
         <label for="title">Title</label>
         <input id="title" v-model="form.title" type="text" required />
@@ -42,7 +42,7 @@
 
       <div class="field">
         <label>
-          <input type="checkbox" v-model="form.pet_allowed" />
+          <input type="checkbox" v-model="form.petsAllowed" />
           Allow pets?
         </label>
       </div>
@@ -68,44 +68,36 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '@/services/EventService'
-
-interface EventForm {
-  title: string
-  category: string
-  description: string
-  location: string
-  date: string
-  time: string
-  pet_allowed: boolean
-  organizer: string
-}
+import type { Event } from '@/types'
 
 const router = useRouter()
 const error = ref('')
-const form = reactive<EventForm>({
+const form = reactive<Event>({
+  id: 0,
   title: '',
   category: 'tech',
   description: '',
   location: '',
   date: '',
   time: '',
-  pet_allowed: false,
+  petsAllowed: false,
   organizer: '',
 })
 
-async function onSubmit() {
+function saveEvent() {
   error.value = ''
-  try {
-    await EventService.createEvent(form)
-    router.push({ name: 'event-list-view' })
-  } catch (e: unknown) {
-    if (e && typeof e === 'object' && 'message' in e) {
-      const msg = (e as { message?: string }).message
-      error.value = msg || 'Failed to create event'
-    } else {
-      error.value = 'Failed to create event'
-    }
-  }
+  EventService.saveEvent(form)
+    .then((response) => {
+      const id = response?.data?.id ?? form.id
+      router.push({ name: 'event-detail-view', params: { id } })
+    })
+    .catch((e: unknown) => {
+      if (e && typeof e === 'object' && 'message' in e) {
+        const msg = (e as { message?: string }).message
+        error.value = msg || 'Failed to create event'
+      }
+      router.push({ name: 'network-error-view' })
+    })
 }
 </script>
 
@@ -135,6 +127,7 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
+  appearance: none;
   -webkit-appearance: none;
 }
 button::-moz-focus-inner,
@@ -182,6 +175,7 @@ textarea {
   height: auto;
 }
 [type='search'] {
+  appearance: textfield;
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
