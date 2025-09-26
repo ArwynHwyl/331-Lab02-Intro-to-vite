@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'https://my-json-server.typicode.com/ArwynHwyl/331-Lab02-Intro-to-vite',
+  // Use backend URL from Vite env (set in .env.development / .env)
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -15,5 +16,8 @@ export default {
   },
   getEvent(id: number) {
     return apiClient.get(`/events/${id}`)
+  },
+  createEvent(data: unknown) {
+    return apiClient.post('/events', data)
   },
 }

@@ -8,9 +8,9 @@ import EventEditView from '../views/event/EditView.vue'
 import EventLayoutView from '../views/event/LayoutView.vue'
 import NotFoundView from '@/views/event/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
+import EventFormView from '@/views/event/EventFormView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/services/EventService'
-import { parse } from 'vue/compiler-sfc'
 import { useEventStore } from '../stores/event'
 
 const router = createRouter({
@@ -23,6 +23,11 @@ const router = createRouter({
       props: (route) => ({
         page: parseInt(route.query.page?.toString() || '1'),
       }),
+    },
+    {
+      path: '/events/create',
+      name: 'event-create-view',
+      component: EventFormView,
     },
     {
       path: '/events/:id',
