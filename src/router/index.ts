@@ -9,6 +9,7 @@ import EventLayoutView from '../views/event/LayoutView.vue'
 import NotFoundView from '@/views/event/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import EventFormView from '@/views/event/EventFormView.vue'
+import OrganizerFormView from '@/views/OrganizerFormView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/services/EventService'
 import { useEventStore } from '../stores/event'
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/add-event',
       name: 'add-event',
       component: EventFormView,
+    },
+    {
+      path: '/add-organizer',
+      name: 'add-organizer',
+      component: OrganizerFormView,
     },
     {
       path: '/events/:id',

@@ -69,9 +69,11 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '@/services/EventService'
 import type { Event } from '@/types'
+import { useMessageStore } from '@/stores/message'
 
 const router = useRouter()
 const error = ref('')
+const messageStore = useMessageStore()
 const form = reactive<Event>({
   id: 0,
   title: '',
@@ -89,6 +91,10 @@ function saveEvent() {
   EventService.saveEvent(form)
     .then((response) => {
       const id = response?.data?.id ?? form.id
+      messageStore.updateMessages(
+        `You are successfully add a new event for ${response?.data?.title ?? form.title}`,
+      )
+      setTimeout(() => messageStore.resetMessages(), 3000)
       router.push({ name: 'event-detail-view', params: { id } })
     })
     .catch((e: unknown) => {
