@@ -31,6 +31,12 @@ const { messages } = storeToRefs(store)
           <RouterLink
             class="font-bold text-gray-700 hover:text-green-500 transition-colors"
             exact-active-class="text-green-500"
+            :to="{ name: 'add-event' }"
+            >New Event</RouterLink
+          >
+          <RouterLink
+            class="font-bold text-gray-700 hover:text-green-500 transition-colors"
+            exact-active-class="text-green-500"
             :to="{ name: 'students' }"
             >Students</RouterLink
           >

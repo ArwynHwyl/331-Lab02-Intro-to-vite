@@ -25,8 +25,8 @@ const router = createRouter({
       }),
     },
     {
-      path: '/events/create',
-      name: 'event-create-view',
+      path: '/add-event',
+      name: 'add-event',
       component: EventFormView,
     },
     {
