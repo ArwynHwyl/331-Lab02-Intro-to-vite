@@ -33,7 +33,12 @@
 
       <div class="field">
         <label for="organizer">Organizer</label>
-        <input id="organizer" v-model="form.organizer.name" type="text" />
+        <select id="organizer" v-model.number="form.organizer.id">
+          <option value="0" disabled>Select organizer</option>
+          <option v-for="option in organizers" :key="option.id" :value="option.id">
+            {{ option.name }}
+          </option>
+        </select>
       </div>
 
       <div>
@@ -49,16 +54,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '@/services/EventService'
-import type { Event } from '@/types'
+import OrganizerService from '@/services/OrganizerService'
+import type { Event, Organizer } from '@/types'
 import { useMessageStore } from '@/stores/message'
 import BaseInput from '@/components/BaseInput.vue'
 
 const router = useRouter()
 const error = ref('')
 const messageStore = useMessageStore()
+const organizers = ref<Organizer[]>([])
+
 const form = reactive<Event>({
   id: 0,
   title: '',
@@ -74,8 +82,33 @@ const form = reactive<Event>({
   },
 })
 
+onMounted(() => {
+  OrganizerService.getOrganizers()
+    .then((response) => {
+      // Expect response.data to be an array of { id, name }
+      organizers.value = response.data
+    })
+    .catch(() => {
+      router.push({ name: 'network-error-view' })
+    })
+})
+
 function saveEvent() {
   error.value = ''
+
+  // Ensure organizer.name is set from the selected organizer id
+  try {
+    const sel = organizers.value.find((o) => o.id === form.organizer.id)
+    if (sel) {
+      form.organizer.name = sel.name
+    } else {
+      // if none selected, clear name
+      form.organizer.name = ''
+    }
+  } catch {
+    form.organizer.name = ''
+  }
+
   EventService.saveEvent(form)
     .then((response) => {
       const id = response?.data?.id ?? form.id
@@ -89,6 +122,8 @@ function saveEvent() {
       if (e && typeof e === 'object' && 'message' in e) {
         const msg = (e as { message?: string }).message
         error.value = msg || 'Failed to create event'
+      } else {
+        error.value = 'Failed to create event'
       }
       router.push({ name: 'network-error-view' })
     })
