@@ -49,7 +49,7 @@
 
       <div class="field">
         <label for="organizer">Organizer</label>
-        <input id="organizer" v-model="form.organizer" type="text" />
+        <input id="organizer" v-model="form.organizer.name" type="text" />
       </div>
 
       <div>
@@ -83,7 +83,10 @@ const form = reactive<Event>({
   date: '',
   time: '',
   petsAllowed: false,
-  organizer: '',
+  organizer: {
+    id: 0,
+    name: '',
+  },
 })
 
 function saveEvent() {
