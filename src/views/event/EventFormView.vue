@@ -4,47 +4,31 @@
 
     <form @submit.prevent="saveEvent">
       <div class="field">
-        <label for="title">Title</label>
-        <input id="title" v-model="form.title" type="text" required />
+        <BaseInput v-model="form.title" type="text" label="Title" required />
       </div>
 
       <div class="field">
-        <label for="category">Category</label>
-        <select id="category" v-model="form.category" required>
-          <option value="health">health</option>
-          <option value="education">education</option>
-          <option value="music">music</option>
-          <option value="tech">tech</option>
-          <option value="sports">sports</option>
-          <option value="community">community</option>
-        </select>
+        <BaseInput v-model="form.category" type="text" label="Category" />
       </div>
 
       <div class="field">
-        <label for="description">Description</label>
-        <textarea id="description" v-model="form.description" rows="4" />
+        <BaseInput v-model="form.description" type="text" label="Description" />
       </div>
 
       <div class="field">
-        <label for="location">Location</label>
-        <input id="location" v-model="form.location" type="text" />
+        <BaseInput v-model="form.location" type="text" label="Location" />
       </div>
 
       <div class="field">
-        <label for="date">Date</label>
-        <input id="date" v-model="form.date" type="date" />
+        <BaseInput v-model="form.date" type="date" label="Date" />
       </div>
 
       <div class="field">
-        <label for="time">Time</label>
-        <input id="time" v-model="form.time" type="time" />
+        <BaseInput v-model="form.time" type="time" label="Time" />
       </div>
 
       <div class="field">
-        <label>
-          <input type="checkbox" v-model="form.petsAllowed" />
-          Allow pets?
-        </label>
+        <BaseInput type="checkbox" v-model="form.petsAllowed" label="Allow pets?" />
       </div>
 
       <div class="field">
@@ -70,6 +54,7 @@ import { useRouter } from 'vue-router'
 import EventService from '@/services/EventService'
 import type { Event } from '@/types'
 import { useMessageStore } from '@/stores/message'
+import BaseInput from '@/components/BaseInput.vue'
 
 const router = useRouter()
 const error = ref('')
