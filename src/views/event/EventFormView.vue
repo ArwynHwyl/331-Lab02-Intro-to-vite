@@ -32,13 +32,7 @@
       </div>
 
       <div class="field">
-        <label for="organizer">Organizer</label>
-        <select id="organizer" v-model.number="form.organizer.id">
-          <option value="0" disabled>Select organizer</option>
-          <option v-for="option in organizers" :key="option.id" :value="option.id">
-            {{ option.name }}
-          </option>
-        </select>
+        <BaseSelect v-model="form.organizer.id" :options="organizers" label="Organizer" />
       </div>
 
       <div>
@@ -61,6 +55,7 @@ import OrganizerService from '@/services/OrganizerService'
 import type { Event, Organizer } from '@/types'
 import { useMessageStore } from '@/stores/message'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
 
 const router = useRouter()
 const error = ref('')
