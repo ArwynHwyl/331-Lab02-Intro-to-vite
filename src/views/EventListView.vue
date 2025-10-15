@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
-import { type Event } from '@/types'
+import { type Event, type PageResponse } from '@/types'
 import { ref, onMounted, computed, watchEffect } from 'vue'
 import EventService from '@/services/EventService'
+import BaseInput from '@/components/BaseInput.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const events = ref<Event[] | null>(null)
 const totalEvents = ref(0)
+const keyword = ref('')
 const hasNextPage = computed(() => {
   const totalPages = Math.ceil(totalEvents.value / 3)
   return page.value < totalPages
@@ -25,18 +27,58 @@ onMounted(() => {
   watchEffect(() => {
     EventService.getEvents(3, page.value)
       .then((response) => {
-        events.value = response.data
-        totalEvents.value = response.headers['x-total-count']
+        const data = response.data as Event[] | PageResponse<Event>
+        if (Array.isArray(data)) {
+          events.value = data
+          totalEvents.value = Number(response.headers['x-total-count'] ?? data.length)
+        } else if (data && Array.isArray(data.content)) {
+          events.value = data.content
+          totalEvents.value = Number(data.totalElements ?? 0)
+        } else {
+          events.value = []
+          totalEvents.value = 0
+        }
       })
       .catch(() => {
         router.push({ name: 'network-error-view' })
       })
   })
 })
+
+function updateKeyword() {
+  let queryFunction
+  if (keyword.value === '') {
+    queryFunction = EventService.getEvents(3, page.value)
+  } else {
+    queryFunction = EventService.getEventsByKeyword(keyword.value, 3, page.value)
+  }
+  queryFunction
+    .then((response) => {
+      const data = response.data as Event[] | PageResponse<Event>
+      if (Array.isArray(data)) {
+        events.value = data
+        totalEvents.value = Number(response.headers['x-total-count'] ?? data.length)
+      } else if (data && Array.isArray(data.content)) {
+        events.value = data.content
+        totalEvents.value = Number(data.totalElements ?? 0)
+      } else {
+        events.value = []
+        totalEvents.value = 0
+      }
+      console.log('events', events.value)
+      console.log('totalEvent', totalEvents.value)
+    })
+    .catch(() => {
+      router.push({ name: 'network-error-view' })
+    })
+}
 </script>
 
 <template>
   <h1 class="text-3xl font-bold mb-6 text-center">Event For Good</h1>
+  <div class="w-full max-w-md mx-auto mb-6">
+    <BaseInput v-model="keyword" type="text" label="Search..." @input="updateKeyword" />
+  </div>
   <div class="flex flex-col items-center gap-4">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
   </div>

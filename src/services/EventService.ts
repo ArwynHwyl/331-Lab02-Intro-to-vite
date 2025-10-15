@@ -13,7 +13,21 @@ const apiClient = axios.create({
 
 export default {
   getEvents(perPage: number, page: number) {
-    return apiClient.get('/events?_limit=' + perPage + '&_page=' + page)
+    // Spring backend expects perSize and page
+    const params = new URLSearchParams({ perSize: String(perPage), page: String(page) })
+    return apiClient.get('/events?' + params.toString())
+  },
+  getEventsByKeyword(keyword: string, perPage: number, page: number) {
+    // Spring backend search: try multiple param names for compatibility
+    const params = new URLSearchParams({
+      keyword,
+      title: keyword,
+      name: keyword,
+      q: keyword,
+      perSize: String(perPage),
+      page: String(page),
+    })
+    return apiClient.get('/events?' + params.toString())
   },
   getEvent(id: number) {
     return apiClient.get(`/events/${id}`)
