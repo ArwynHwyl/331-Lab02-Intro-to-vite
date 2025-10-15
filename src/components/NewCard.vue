@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { Event } from '@/types'
 defineProps<{
   event: Event
@@ -19,7 +20,7 @@ defineProps<{
 <template>
   <div class="info">
     <p>{{ event.category }}</p>
-    <span>by {{ event.organizer.name }}</span>
+    <span>@{{ event.organizer }}</span>
   </div>
 </template>
 <style scoped>

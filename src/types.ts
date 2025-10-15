@@ -32,12 +32,3 @@ export interface MessageState {
 export interface EventState {
   event: Event | null
 }
-
-// Generic Spring Page response shape
-export interface PageResponse<T> {
-  content: T[]
-  totalElements: number
-  totalPages?: number
-  size?: number
-  number?: number
-}
