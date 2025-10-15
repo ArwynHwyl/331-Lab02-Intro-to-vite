@@ -15,6 +15,12 @@ export default {
   getEvents(perPage: number, page: number) {
     return apiClient.get('/events?_limit=' + perPage + '&_page=' + page)
   },
+  getEventsByKeyword(keyword: string, perPage: number, page: number) {
+    // Query by title with pagination (json-server style)
+    return apiClient.get(
+      '/events?title=' + encodeURIComponent(keyword) + '&_limit=' + perPage + '&_page=' + page,
+    )
+  },
   getEvent(id: number) {
     return apiClient.get(`/events/${id}`)
   },

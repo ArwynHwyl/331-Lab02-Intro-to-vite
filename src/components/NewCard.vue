@@ -20,7 +20,7 @@ defineProps<{
 <template>
   <div class="info">
     <p>{{ event.category }}</p>
-    <span>@{{ event.organizer }}</span>
+    <span>By {{ event.organizer.name }}</span>
   </div>
 </template>
 <style scoped>

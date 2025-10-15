@@ -28,7 +28,6 @@ defineProps<{
       <h5>{{ event.organizer.name }}</h5>
       <span>{{ event.category }} @ {{ event.location }}</span>
       <NewCard :event="event" />
-      <p>{{ event.description }}</p>
     </div>
   </RouterLink>
 </template>
