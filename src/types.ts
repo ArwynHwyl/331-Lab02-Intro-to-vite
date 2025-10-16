@@ -15,6 +15,7 @@ export interface Organizer {
   id: number
   name: string
   image?: string
+  roles?: string[]
 }
 
 export interface OrganizerDetail extends Organizer {

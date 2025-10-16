@@ -19,6 +19,9 @@ export const useAuthStore = defineStore('auth', {
     authorizationHeader(): string {
       return `Bearer ${this.token}`
     },
+    isAdmin(): boolean {
+      return this.user?.roles?.includes('ROLE_ADMIN') || false
+    },
   },
   actions: {
     login(email: string, password: string) {
