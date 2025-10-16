@@ -22,7 +22,14 @@ const { value: password } = useField<string>('password')
 const authStore = useAuthStore()
 
 const onSubmit = handleSubmit((values) => {
-  authStore.login(values.email, values.password)
+  authStore
+    .login(values.email, values.password)
+    .then(() => {
+      console.log('Login successful')
+    })
+    .catch((error) => {
+      console.log('Login failed', error)
+    })
 })
 </script>
 
@@ -45,7 +52,12 @@ const onSubmit = handleSubmit((values) => {
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
             Email address
           </label>
-          <InputText type="text" v-model="email" placeholder="Email address" :error="errors['email']" />
+          <InputText
+            type="text"
+            v-model="email"
+            placeholder="Email address"
+            :error="errors['email']"
+          />
         </div>
 
         <div>
