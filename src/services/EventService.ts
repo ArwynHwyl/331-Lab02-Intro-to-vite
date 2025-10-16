@@ -35,6 +35,7 @@ export default {
       time: event.time,
       petAllowed: event.petsAllowed,
       organizer: event.organizer,
+      images: event.images ?? [],
     }
     return apiClient.post('/events', payload)
   },
