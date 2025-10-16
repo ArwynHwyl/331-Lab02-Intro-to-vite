@@ -16,6 +16,9 @@ export const useAuthStore = defineStore('auth', {
     currentUserName(): string {
       return this.user?.name || this.user?.username || ''
     },
+    authorizationHeader(): string {
+      return `Bearer ${this.token}`
+    },
   },
   actions: {
     login(email: string, password: string) {

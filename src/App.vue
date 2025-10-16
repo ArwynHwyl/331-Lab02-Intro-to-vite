@@ -78,6 +78,12 @@ function logout() {
           <RouterLink
             class="font-bold text-gray-700 hover:text-green-500 transition-colors"
             exact-active-class="text-green-500"
+            :to="{ name: 'organizer-list-view' }"
+            >Organizers</RouterLink
+          >
+          <RouterLink
+            class="font-bold text-gray-700 hover:text-green-500 transition-colors"
+            exact-active-class="text-green-500"
             :to="{ name: 'students' }"
             >Students</RouterLink
           >
