@@ -1,9 +1,11 @@
 import axios from 'axios'
 import type { Event as AppEvent } from '@/types'
 
+const baseURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8082'
+
 const apiClient = axios.create({
   // Use backend URL from Vite env (set in .env.development / .env)
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL,
   withCredentials: false,
   headers: {
     Accept: 'application/json',

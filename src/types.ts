@@ -14,6 +14,12 @@ export interface Event {
 export interface Organizer {
   id: number
   name: string
+  image?: string
+}
+
+export interface OrganizerDetail extends Organizer {
+  image: string
+  ownEvents: Event[]
 }
 
 export interface StudentInfo {

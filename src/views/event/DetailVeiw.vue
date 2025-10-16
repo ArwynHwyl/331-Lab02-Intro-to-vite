@@ -51,7 +51,16 @@ const petsLabel = computed(() => (event.value?.petsAllowed ? 'Allowed' : 'Not al
         </li>
         <li>
           <span class="label">Organizer:</span>
-          <span>{{ event.organizer?.name || 'Unassigned' }}</span>
+          <span>
+            <RouterLink
+              v-if="event.organizer?.id"
+              :to="{ name: 'organizer-detail-view', params: { id: event.organizer.id } }"
+              class="organizer-link"
+            >
+              {{ event.organizer?.name }}
+            </RouterLink>
+            <span v-else>{{ event.organizer?.name || 'Unassigned' }}</span>
+          </span>
         </li>
         <li>
           <span class="label">Pets:</span>
@@ -143,6 +152,15 @@ const petsLabel = computed(() => (event.value?.petsAllowed ? 'Allowed' : 'Not al
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+.organizer-link {
+  color: #2c82c9;
+  text-decoration: none;
+}
+
+.organizer-link:hover {
+  text-decoration: underline;
 }
 
 .no-images {

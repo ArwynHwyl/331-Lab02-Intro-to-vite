@@ -85,15 +85,21 @@ const form = reactive<Event>({
   images: [],
 })
 
-onMounted(() => {
-  OrganizerService.getOrganizers()
-    .then((response) => {
-      // Expect response.data to be an array of { id, name }
-      organizers.value = response.data
-    })
-    .catch(() => {
-      router.push({ name: 'network-error-view' })
-    })
+onMounted(async () => {
+  try {
+    const response = await OrganizerService.getOrganizers()
+    const payload = response.data
+    const list = Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload?.data)
+        ? payload.data
+        : Array.isArray(payload?.content)
+          ? payload.content
+          : []
+    organizers.value = list
+  } catch (err) {
+    router.push({ name: 'network-error-view' })
+  }
 })
 
 function saveEvent() {
