@@ -1,15 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import type { AxiosInstance } from 'axios'
-
-const apiClient: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-})
+import apiClient from '@/services/AxiosClient'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -24,6 +15,8 @@ export const useAuthStore = defineStore('auth', {
         })
         .then((response) => {
           this.token = response.data.access_token
+          localStorage.setItem('access_token', this.token as string)
+          axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
           return response
         })
     },
