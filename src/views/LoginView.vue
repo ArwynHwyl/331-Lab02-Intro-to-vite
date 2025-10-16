@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useMessageStore } from '@/stores/message'
 
 const validationSchema = yup.object({
   email: yup.string().required('The email is required'),
@@ -22,6 +23,7 @@ const { value: email } = useField<string>('email')
 const { value: password } = useField<string>('password')
 const authStore = useAuthStore()
 const router = useRouter()
+const messageStore = useMessageStore()
 
 const onSubmit = handleSubmit((values) => {
   authStore
@@ -29,8 +31,11 @@ const onSubmit = handleSubmit((values) => {
     .then(() => {
       router.push({ name: 'event-list-view' })
     })
-    .catch((error) => {
-      console.log('Login failed', error)
+    .catch(() => {
+      messageStore.updateMessages('could not login')
+      setTimeout(() => {
+        messageStore.resetMessages()
+      }, 3000)
     })
 })
 </script>
