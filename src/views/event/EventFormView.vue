@@ -32,7 +32,13 @@
       </div>
 
       <div class="field">
-        <BaseSelect v-model="form.organizer.id" :options="organizers" label="Organizer" />
+        <h3>Who is your organizer?</h3>
+        <BaseSelect v-model="form.organizer.id" label="Organizer" :options="organizers" />
+      </div>
+
+      <div class="field">
+        <h3>The image of the Event</h3>
+        <ImageUpload v-model="form.images" />
       </div>
 
       <div>
@@ -56,6 +62,7 @@ import type { Event, Organizer } from '@/types'
 import { useMessageStore } from '@/stores/message'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
+import ImageUpload from '@/components/ImageUpload.vue'
 
 const router = useRouter()
 const error = ref('')
@@ -75,6 +82,7 @@ const form = reactive<Event>({
     id: 0,
     name: '',
   },
+  images: [],
 })
 
 onMounted(() => {
