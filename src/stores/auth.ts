@@ -24,6 +24,9 @@ export const useAuthStore = defineStore('auth', {
     },
   },
   actions: {
+    register(payload: { firstname: string; lastname: string; email: string; password: string }) {
+      return apiClient.post('/api/v1/auth/register', payload)
+    },
     login(email: string, password: string) {
       return apiClient
         .post('/api/v1/auth/authenticate', {
